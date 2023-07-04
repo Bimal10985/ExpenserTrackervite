@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import UserModel from "../models/user.js"
+import UserModel from "../models/user.js";
 const secret = "test";
 export const signup = async (req, res) => {
   const { email, password, firstname, lastname } = req.body;
@@ -47,12 +47,12 @@ export const signIn = async (req, res) => {
   }
 };
 
-export const fetchUsers = async(req,res)=>{
-    try {
-        const users=await UserModel.find({});
-        res.json(users);
-    } catch (error) {
-        res.status(500).json({ message: "something went wrong" });
-        console.log(error);
-    }
-}
+export const fetchUsers = async (req, res) => {
+  try {
+    const users = await UserModel.find({});
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: "something went wrong" });
+    console.log(error);
+  }
+};

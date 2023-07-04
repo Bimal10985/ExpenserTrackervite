@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import bg from "../img/data.svg";
-import { Container } from "react-bootstrap";
+import api from "../api/config";
 const Home = () => {
+  // const fetch = api.get("/users");
+
   return (
     <>
       <section className="position-relative pb-5 mt-5">

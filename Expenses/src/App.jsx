@@ -4,8 +4,11 @@ import Home from "./pages/Home";
 import Login from "./pages/Users/Login/Login";
 import Register from "./pages/Users/Register/Register";
 import Navbar from "./components/Navbar/Navbar";
+import axios from "axios";
 
 function App() {
+  // axios.defaults.baseURL = "http://localhost:5000";
+
   return (
     <>
       <Navbar />
