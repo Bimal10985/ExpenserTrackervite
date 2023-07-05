@@ -22,7 +22,12 @@ const Register = () => {
             <div className="p-5 bg-light rounded text-center">
               <form>
                 <span className="text-muted">New User</span>
-                <h3 className="fw-bold mb-5">Register</h3>
+                <h3 className="fw-bold mb-5">Register Now</h3>
+                <input
+                  className="form-control mb-2"
+                  type="TEXT"
+                  placeholder="First Name"
+                />
                 <input
                   className="form-control mb-2"
                   type="TEXT"
