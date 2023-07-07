@@ -1,8 +1,21 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
-
+import { useDispatch, useSelector } from "react-redux";
+import Loader from "../../../components/Loading/Loading";
+import { LoginUser } from "../../../redux/slice/authSlice";
+import { toast } from "react-toastify";
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handlerLogin = (e) => {
+    e.preventDefault();
+    if (email && password) {
+      dispatch(LoginUser({ email, password, navigate, toast }));
+    }
+  };
   return (
     <section
       style={{ height: "91vh" }}
@@ -22,18 +35,27 @@ const Login = () => {
               <span className="text-muted">Sign In</span>
               <h3 className="fw-bold mb-5">Login to your account</h3>
 
-              <form _lpchecked="1">
+              <form _lpchecked="1" onSubmit={handlerLogin}>
                 <input
                   className="form-control mb-2"
                   type="email"
                   placeholder="E-mail address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
                 <input
                   className="form-control mb-2"
                   type="password"
                   placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
-                <Button className="mt-3" variant="outline-success">
+                <Button
+                  type="submit"
+                  className="mt-3"
+                  variant="outline-success"
+                >
                   Login
                 </Button>{" "}
               </form>

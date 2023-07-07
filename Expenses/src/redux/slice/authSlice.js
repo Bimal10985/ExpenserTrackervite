@@ -6,11 +6,13 @@ import api from "../../api/config";
 export const LoginUser = createAsyncThunk(
   "auth/LoginUser",
   async ({ email, password, navigate, toast }, { rejectWithValue }) => {
+    console.log(email, password);
     try {
       const response = await api.post(`/signin`, {
         email,
         password,
       });
+      console.log(response);
       toast.success("Login successfully");
       navigate("/");
       return response.data;
