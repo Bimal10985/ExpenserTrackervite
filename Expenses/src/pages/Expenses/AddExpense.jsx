@@ -2,10 +2,12 @@ import React from "react";
 import moneySVG from "../../img/money.svg";
 
 
-const AddIncome = () => {
+
+const AddExpense = () => {
+  
   return (
     <>
-      <section className="py-5 bg-success vh-100">
+      <section className="py-5 bg-danger vh-100">
         <div className="container text-center">
           <a className="d-inline-block mb-5">
             <img
@@ -19,9 +21,9 @@ const AddIncome = () => {
             <div className="col-12 col-md-8 col-lg-5 mx-auto">
               <div className="p-4 shadow-sm rounded bg-white">
                 <form >
-                  <span className="text-muted">Income</span>
-                  <h2 className="mb-4 fw-light">Record New Income</h2>
-                 
+                  <span className="text-muted">Expense</span>
+                  <h2 className="mb-4 fw-light">Record New Expense</h2>
+                  
                   <div className="mb-3 input-group">
                     <input
                       className="form-control"
@@ -36,6 +38,7 @@ const AddIncome = () => {
                       placeholder="Enter Description"
                     />
                   </div>
+                 
                   <div className="mb-3 input-group">
                     <input
                       className="form-control"
@@ -43,15 +46,11 @@ const AddIncome = () => {
                       placeholder="Enter Amount"
                     />
                   </div>
-                  
                  
-                    <button
-                      type="submit"
-                      className="btn btn-success mb-4 w-100"
-                    >
-                      Record Income
+                    <button type="submit" className="btn btn-danger mb-4 w-100">
+                      Record Expense
                     </button>
-                  
+                
                 </form>
               </div>
             </div>
@@ -62,4 +61,4 @@ const AddIncome = () => {
   );
 };
 
-export default AddIncome;
+export default AddExpense;

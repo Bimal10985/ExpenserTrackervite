@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import userRouter from "./routes/user.js";
 import incomeRouter from "./routes/income.js";
+import expenseRouter from "./routes/expense.js"
 import dotenv from "dotenv";
 const app = express();
 dotenv.config();
@@ -11,6 +12,8 @@ app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 app.use("/", userRouter);
 app.use("/", incomeRouter);
+app.use("/", expenseRouter);
+
 
 
 const port=process.env.PORT;

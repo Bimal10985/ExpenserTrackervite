@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import Loader from "../../../components/Loading/Loading";
 import { LoginUser } from "../../../redux/slice/authSlice";
 import { toast } from "react-toastify";
 const Login = () => {

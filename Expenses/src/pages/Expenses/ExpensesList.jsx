@@ -1,45 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 import { Link } from "react-router-dom";
-import ContentDetails from "../../components/ContentDetails/ContentDetails";
-import ErrorDisplayMessage from "../../components/ErrorDisplayMessage";
-import LoadingComponent from "../../components/Loading/Loading";
-
-import AppPagination from "../../components/Pagination/AppPagination";
-import { fetchExpensesAction } from "../../redux/slices/expenses/expenseAction";
-import { userProfileAction } from "../../redux/slices/users/usersSlices";
-import calTransaction from "../../utils/accStatistics";
 
 const ExpensesList = () => {
-  const [page, setPage] = useState(1);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchExpensesAction(page));
-  }, [page]);
-  //expenses
-  const expenses = useSelector(state => state.expenses);
-  const { expLoading, expenseList, expAppErr, expServerErr } = expenses;
-  console.log({ expLoading, expenseList, expAppErr, expServerErr });
-  const totalExp = calTransaction(expenseList?.docs ? expenseList?.docs : []);
-
-  //user Expenses
-  useEffect(() => {
-    dispatch(userProfileAction());
-  }, []);
-  const user = useSelector(state => state.users);
-  const { profile, userLoading, userAppErr, userServerErr } = user;
 
   return (
     <>
-      {expLoading ? (
-        <LoadingComponent />
-      ) : expAppErr || expServerErr ? (
-        <ErrorDisplayMessage>
-          {" "}
-          {expServerErr}
-          {expAppErr}
-        </ErrorDisplayMessage>
-      ) : (
+      
         <section className="py-6">
           <div className="container-fluid">
             <div className="position-relative border rounded-2">
@@ -94,7 +60,7 @@ const ExpensesList = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody>
+                {/* <tbody>
                   <>
                     {expenseList?.length <= 0 ? (
                       <h2>No Expense Found</h2>
@@ -104,7 +70,7 @@ const ExpensesList = () => {
                       ))
                     )}
                   </>
-                </tbody>
+                </tbody> */}
               </table>
             </div>
           </div>
@@ -116,15 +82,15 @@ const ExpensesList = () => {
               marginTop: "20px",
             }}
           >
-            {expenseList?.docs?.length > 1 && (
+            {/* {expenseList?.docs?.length > 1 && (
               <AppPagination
                 setPage={setPage}
                 items={expenseList?.totalPages}
               />
-            )}
+            )} */}
           </div>
         </section>
-      )}
+      
     </>
   );
 };

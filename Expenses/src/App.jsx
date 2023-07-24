@@ -4,11 +4,12 @@ import Home from "./pages/Home";
 import Login from "./pages/Users/Login/Login";
 import Register from "./pages/Users/Register/Register";
 import IncomeList from "./pages/Income/IncomeList";
+import AddIncome from "./pages/Income/AddIncome";
+import ExpensesList from "./pages/Expenses/ExpensesList";
+import AddExpense from "./pages/Expenses/AddExpense";
 import Navbar from "./components/Navbar/Navbar";
-import axios from "axios";
 
 function App() {
-  // axios.defaults.baseURL = "http://localhost:5000";
 
   return (
     <>
@@ -17,7 +18,13 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/new-income" element={<IncomeList />} />
+        <Route path="/incomelist" element={<IncomeList />} />
+        <Route path="/addincome" element={<AddIncome />} />
+        <Route path="/expenseslist" element={<ExpensesList />} />
+        <Route path="/addexpense" element={<AddExpense />} />
+
+
+
       </Routes>
     </>
   );
