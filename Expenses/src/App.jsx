@@ -8,9 +8,16 @@ import AddIncome from "./pages/Income/AddIncome";
 import ExpensesList from "./pages/Expenses/ExpensesList";
 import AddExpense from "./pages/Expenses/AddExpense";
 import Navbar from "./components/Navbar/Navbar";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { setUser } from "./redux/slice/authSlice";
 
 function App() {
-
+  const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("profile"));
+  useEffect(() => {
+    dispatch(setUser(user));
+  }, []);
   return (
     <>
       <Navbar />
@@ -22,9 +29,6 @@ function App() {
         <Route path="/addincome" element={<AddIncome />} />
         <Route path="/expenseslist" element={<ExpensesList />} />
         <Route path="/addexpense" element={<AddExpense />} />
-
-
-
       </Routes>
     </>
   );

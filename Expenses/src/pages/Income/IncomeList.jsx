@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container } from "react-bootstrap";
-// import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { allIncome } from "../../redux/slice/incomeSlice";
 
 const IncomeList = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(allIncome());
+  }, []);
   return (
     <>
       <Container>
@@ -32,7 +37,6 @@ const IncomeList = () => {
                         <small className="text-center">Deposited By</small>
                       </button>
                     </th>
-                    s
                     <th scope="col">
                       <button className="btn d-flex align-items-centerr text-uppercase">
                         <small>Title</small>

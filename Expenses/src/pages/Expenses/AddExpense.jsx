@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import moneySVG from "../../img/money.svg";
-
-
-
+import { useDispatch, useSelector } from "react-redux";
 const AddExpense = () => {
-  
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  });
   return (
     <>
       <section className="py-5 bg-danger vh-100">
@@ -20,10 +25,10 @@ const AddExpense = () => {
           <div className="row mb-4">
             <div className="col-12 col-md-8 col-lg-5 mx-auto">
               <div className="p-4 shadow-sm rounded bg-white">
-                <form >
+                <form>
                   <span className="text-muted">Expense</span>
                   <h2 className="mb-4 fw-light">Record New Expense</h2>
-                  
+
                   <div className="mb-3 input-group">
                     <input
                       className="form-control"
@@ -38,7 +43,7 @@ const AddExpense = () => {
                       placeholder="Enter Description"
                     />
                   </div>
-                 
+
                   <div className="mb-3 input-group">
                     <input
                       className="form-control"
@@ -46,11 +51,10 @@ const AddExpense = () => {
                       placeholder="Enter Amount"
                     />
                   </div>
-                 
-                    <button type="submit" className="btn btn-danger mb-4 w-100">
-                      Record Expense
-                    </button>
-                
+
+                  <button type="submit" className="btn btn-danger mb-4 w-100">
+                    Record Expense
+                  </button>
                 </form>
               </div>
             </div>
