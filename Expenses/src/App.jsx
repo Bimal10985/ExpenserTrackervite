@@ -1,5 +1,8 @@
+import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home";
 import Login from "./pages/Users/Login/Login";
 import Register from "./pages/Users/Register/Register";
@@ -17,10 +20,11 @@ function App() {
   const user = JSON.parse(localStorage.getItem("profile"));
   useEffect(() => {
     dispatch(setUser(user));
-  }, []);
+  }, [user]);
   return (
     <>
       <Navbar />
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />

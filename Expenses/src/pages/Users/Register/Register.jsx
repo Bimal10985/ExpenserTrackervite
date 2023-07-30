@@ -1,7 +1,22 @@
-import React from "react";
+import React,{useState} from "react";
 import { Button } from "react-bootstrap";
-
+import { useDispatch,useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { RegisterUser } from "../../../redux/slice/authSlice";
+import {toast} from "react-toastify";
 const Register = () => {
+  const [firstname,setFirstName]=useState("");
+  const [lastname,setLastName]=useState("");
+  const [email,setEmail]=useState("");
+  const [password,setPassword]=useState("");
+  const navigate=useNavigate();
+  const dispatch=useDispatch();
+  const handleRegister=(e)=>{
+    e.preventDefault();
+    if(firstname && lastname && email && password){
+      dispatch(RegisterUser({firstname,lastname,email,password,navigate,toast}))
+    }
+  }
   return (
     <section
       className="position-relative py-5 overflow-hidden  bg-success"
@@ -20,30 +35,38 @@ const Register = () => {
           </div>
           <div className="col-12 col-lg-5 ms-auto">
             <div className="p-5 bg-light rounded text-center">
-              <form>
+              <form onSubmit={handleRegister}>
                 <span className="text-muted">New User</span>
                 <h3 className="fw-bold mb-5">Register Now</h3>
                 <input
                   className="form-control mb-2"
                   type="TEXT"
                   placeholder="First Name"
+                  value={firstname}
+                  onChange={(e) => setFirstName(e.target.value)}
                 />
                 <input
                   className="form-control mb-2"
                   type="TEXT"
                   placeholder="Last Name"
+                  value={lastname}
+                  onChange={(e) => setLastName(e.target.value)}
                 />
                 <input
                   className="form-control mb-2"
                   type="email"
                   placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <input
                   className="form-control mb-2"
                   type="password"
                   placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
-                <Button variant="outline-success">Register</Button>{" "}
+                <Button type="submit" variant="outline-success">Register</Button>{" "}
               </form>
             </div>
           </div>

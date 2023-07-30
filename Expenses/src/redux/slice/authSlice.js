@@ -6,7 +6,6 @@ import api from "../../api/config";
 export const LoginUser = createAsyncThunk(
   "auth/LoginUser",
   async ({ email, password, navigate, toast }, { rejectWithValue }) => {
-    console.log(email, password);
     try {
       const response = await api.post(`/signin`, {
         email,
@@ -14,7 +13,7 @@ export const LoginUser = createAsyncThunk(
       });
       console.log(response);
       toast.success("Login successfully");
-      navigate("/");
+      navigate("/dashboard");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -24,10 +23,9 @@ export const LoginUser = createAsyncThunk(
 
 export const RegisterUser = createAsyncThunk(
   "auth/RegisterUser",
-  async ({ firstname, lastname, email, password }, { rejectWithValue }) => {
+  async ({ firstname, lastname, email, password,navigate,toast }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        `https://tourapps.onrender.com/users/signup`,
+      const response = await api.post(`/signup`,
         {
           firstname,
           lastname,
@@ -36,6 +34,7 @@ export const RegisterUser = createAsyncThunk(
         }
       );
       toast.success("Register Successfully");
+      navigate("/login");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -76,7 +75,6 @@ const authSlice = createSlice({
     },
     [RegisterUser.fulfilled]: (state, action) => {
       state.loading = false;
-      localStorage.setItem("profile", JSON.stringify({ ...action.payload }));
       state.user = action.payload;
     },
     [RegisterUser.rejected]: (state, action) => {

@@ -1,10 +1,16 @@
 import React from "react";
+<<<<<<< HEAD
 import { Link, useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import { setLogout } from "../../redux/slice/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 
+=======
+import { Link } from "react-router-dom";
+import { useSelector,useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+>>>>>>> e1a17f8a2c771e5ba0e66c2840e2aea4ee0c749e
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -47,7 +53,14 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="nav-item">
+<<<<<<< HEAD
                 <Link to="/addincome" className="btn  btn-outline-primary me-2">
+=======
+                <Link
+                  to="/addincome"
+                  className="btn  btn-outline-primary me-2"
+                >
+>>>>>>> e1a17f8a2c771e5ba0e66c2840e2aea4ee0c749e
                   New Income
                 </Link>
               </li>
