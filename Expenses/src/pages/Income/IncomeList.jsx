@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { allIncome } from "../../redux/slice/incomeSlice";
 
 const IncomeList = () => {
   const dispatch = useDispatch();
+  const { incomes } = useSelector((state) => state.income);
   useEffect(() => {
     dispatch(allIncome());
   }, []);
@@ -23,7 +24,7 @@ const IncomeList = () => {
                   Below is the history of your income transactions records
                 </p>
                 <Link
-                  to="/add-income"
+                  to="/addincome"
                   className="btn  btn-success me-2 mt-2 mb-4"
                 >
                   New Income
@@ -65,17 +66,26 @@ const IncomeList = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* {incomeList?.length <= 0 ? (
-                  <h2>No Income Found</h2>
-                ) : (
-                  incomeList?.docs?.map((exp) => (
-                    <ContentDetails
-                      dataType={dataType}
-                      item={exp}
-                      key={exp?._id}
-                    />
-                  ))
-                )} */}
+                  {incomes?.incomes?.length <= 0 ? (
+                    <h2>No Income Found</h2>
+                  ) : (
+                    incomes?.incomes?.map((elm) => {
+                      return (
+                        <>
+                          <tr>
+                            <td>{elm?.name}</td>
+
+                            <td>{elm?.name}</td>
+                            <td>{elm?.description}</td>
+                            <td>{elm?.amount}</td>
+                            <td>{elm?.name}</td>
+
+                            <td>{elm?.name}</td>
+                          </tr>
+                        </>
+                      );
+                    })
+                  )}
                 </tbody>
               </table>
             </div>

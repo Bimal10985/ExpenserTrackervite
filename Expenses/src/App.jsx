@@ -12,8 +12,8 @@ import ExpensesList from "./pages/Expenses/ExpensesList";
 import AddExpense from "./pages/Expenses/AddExpense";
 import Navbar from "./components/Navbar/Navbar";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
 import { setUser } from "./redux/slice/authSlice";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,6 +28,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+
         <Route path="/register" element={<Register />} />
         <Route path="/incomelist" element={<IncomeList />} />
         <Route path="/addincome" element={<AddIncome />} />

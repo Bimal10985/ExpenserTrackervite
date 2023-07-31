@@ -3,6 +3,7 @@ import moneySVG from "../../img/money.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addIncome } from "../../redux/slice/incomeSlice";
+import { toast } from "react-toastify";
 
 const AddIncome = () => {
   const [name, setName] = useState("");
@@ -12,8 +13,6 @@ const AddIncome = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const handleAddIncome = (e) => {
-    console.log("gjhhghhjghj");
-    console.log(user?.result?._id);
     e.preventDefault();
     if (name && description && amount) {
       dispatch(
