@@ -9,10 +9,10 @@ export const incomeCreate = async (req, res) => {
       amount,
       user,
     });
-    res.status(200).json({ income });
+    res.status(200).json(income);
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
-    console.log(error);
+    res.status(500).json({ message: error.message });
+    // console.log(error);
   }
 };
 
