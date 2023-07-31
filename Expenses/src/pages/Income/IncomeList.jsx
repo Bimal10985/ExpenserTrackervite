@@ -1,12 +1,19 @@
 import React, { useEffect } from "react";
-import { Container } from "react-bootstrap";
+import { Container,Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { allIncome } from "../../redux/slice/incomeSlice";
+import { allIncome, deleteIncome } from "../../redux/slice/incomeSlice";
+import {AiFillEdit,AiFillDelete} from "react-icons/ai";
+import {toast} from "react-toastify"
 
 const IncomeList = () => {
   const dispatch = useDispatch();
   const { incomes } = useSelector((state) => state.income);
+  const deleteSingleIncome=(id)=>{
+    if (window.confirm("Are you sure want to delete this tour?")) {
+      dispatch(deleteIncome({ id, toast }));
+    }
+  }
   useEffect(() => {
     dispatch(allIncome());
   }, []);
@@ -80,7 +87,7 @@ const IncomeList = () => {
                             <td>{elm?.amount}</td>
                             <td>{elm?.name}</td>
 
-                            <td>{elm?.name}</td>
+                            <td> <Button ><AiFillEdit/></Button> <Button onClick={()=>deleteSingleIncome(elm?._id)}><AiFillDelete/></Button> </td>
                           </tr>
                         </>
                       );

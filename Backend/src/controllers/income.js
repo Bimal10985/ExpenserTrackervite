@@ -1,13 +1,12 @@
 import mongoose from "mongoose";
 import IncomeModel from "../models/income.js";
 export const incomeCreate = async (req, res) => {
-  const { name, description, amount, type, user } = req.body;
+  const { name, description, amount, user } = req.body;
   try {
     const income = await IncomeModel.create({
       name,
       description,
       amount,
-      type,
       user,
     });
     res.status(200).json({ income });
@@ -57,7 +56,6 @@ export const editIncome = async (req, res) => {
 
 export const deleteIncome = async (req, res) => {
   const { id } = req.params;
-  console.log(id);
   try {
     const incomes = await IncomeModel.findByIdAndDelete(id);
     res.status(200).json({ incomes });

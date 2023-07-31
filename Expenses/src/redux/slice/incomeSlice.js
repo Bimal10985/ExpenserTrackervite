@@ -25,7 +25,6 @@ export const addIncome = createAsyncThunk(
         {
           name,
           description,
-          type,
           amount,
           user,
         },
@@ -40,6 +39,20 @@ export const addIncome = createAsyncThunk(
       return response?.data;
     } catch (error) {
       return rejectWithValue(error.response?.data);
+    }
+  }
+);
+export const deleteIncome = createAsyncThunk(
+  "income/deleteIncome",
+  async ({id,toast},{rejectWithValue}) => {
+    console.log(id);
+    try {
+      const response = await api.delete(`/delete/${id}`);
+      toast.success("Income deleted successfully");
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -75,6 +88,19 @@ const incomeSlice = createSlice({
     [addIncome.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload?.message;
+    },
+    [deleteIncome.pending]: (state, action) => {
+      state.loading = true;
+      state.success = false;
+
+    },
+    [deleteIncome.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.success = true;
+    },
+    [deleteIncome.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload.message;
     },
   },
 });
