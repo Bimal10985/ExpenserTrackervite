@@ -20,20 +20,12 @@ export const addIncome = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await api.post(
-        `/income`,
-        {
-          name,
-          description,
-          amount,
-          user,
-        },
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await api.post(`/income`, {
+        name,
+        description,
+        amount,
+        user,
+      });
       toast.success("New Income added successfully");
       navigate("/incomelist");
       return response?.data;
@@ -44,12 +36,24 @@ export const addIncome = createAsyncThunk(
 );
 export const deleteIncome = createAsyncThunk(
   "income/deleteIncome",
-  async ({id,toast},{rejectWithValue}) => {
+  async ({ id, toast }, { rejectWithValue }) => {
     console.log(id);
     try {
       const response = await api.delete(`/delete/${id}`);
       toast.success("Income deleted successfully");
 
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const getSingleIncome = createAsyncThunk(
+  "income/getSingleIncome",
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      const response = await api.get(`/${id}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -92,7 +96,6 @@ const incomeSlice = createSlice({
     [deleteIncome.pending]: (state, action) => {
       state.loading = true;
       state.success = false;
-
     },
     [deleteIncome.fulfilled]: (state, action) => {
       state.loading = false;

@@ -1,24 +1,46 @@
-import React, { useEffect } from "react";
-import { Container,Button } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Container, Button, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { allIncome, deleteIncome } from "../../redux/slice/incomeSlice";
-import {AiFillEdit,AiFillDelete} from "react-icons/ai";
-import {toast} from "react-toastify"
+import { AiFillEdit, AiFillDelete } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 const IncomeList = () => {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const dispatch = useDispatch();
-  const { incomes } = useSelector((state) => state.income);
-  const deleteSingleIncome=(id)=>{
+  const { incomes, success } = useSelector((state) => state.income);
+  const deleteSingleIncome = (id) => {
     if (window.confirm("Are you sure want to delete this tour?")) {
       dispatch(deleteIncome({ id, toast }));
     }
-  }
+  };
   useEffect(() => {
     dispatch(allIncome());
   }, []);
+  useEffect(() => {
+    if (success) {
+      dispatch(allIncome());
+    }
+  }, [success]);
   return (
     <>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <Container>
         <section className="py-6 mt-5">
           <div className="container-fluid">
@@ -87,7 +109,17 @@ const IncomeList = () => {
                             <td>{elm?.amount}</td>
                             <td>{elm?.name}</td>
 
-                            <td> <Button ><AiFillEdit/></Button> <Button onClick={()=>deleteSingleIncome(elm?._id)}><AiFillDelete/></Button> </td>
+                            <td>
+                              {" "}
+                              <Button onClick={handleShow}>
+                                <AiFillEdit />
+                              </Button>{" "}
+                              <Button
+                                onClick={() => deleteSingleIncome(elm?._id)}
+                              >
+                                <AiFillDelete />
+                              </Button>{" "}
+                            </td>
                           </tr>
                         </>
                       );
