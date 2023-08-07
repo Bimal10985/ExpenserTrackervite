@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
@@ -8,16 +8,26 @@ import { useSelector, useDispatch } from "react-redux";
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+
   const logouthandler = () => {
     dispatch(setLogout());
     navigate("/login");
   };
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user]);
   return (
     <>
+      <Container></Container>
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
-        <div className="container-fluid">
+        <div className="container">
           <Link to="/" className="navbar-brand">
-            <i className="bi bi-currency-exchange fs-1 text-warning "></i>
+            <i className="bi bi-currency-exchange fs-1 text-warning ">
+              Investo
+            </i>
           </Link>
           <button
             className="navbar-toggler"
@@ -31,7 +41,10 @@ const Navbar = () => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul
+              // style={{ marginLeft: "250px" }}
+              className="navbar-nav  me-auto mb-2 mb-lg-0"
+            >
               <li className="nav-item">
                 <Link to="/" className="nav-link active" aria-current="page">
                   Home
@@ -53,15 +66,25 @@ const Navbar = () => {
               </li>
             </ul>
             <form className="d-flex">
-              <Link to="/login" className="btn btn-outline-secondary me-2">
-                Sign In
-              </Link>
-              <Link to="/register" className="btn btn-primary me-2">
-                Sign Up
-              </Link>
-              <Button onClick={logouthandler} className="btn btn-primary">
-                Log Out
-              </Button>
+              {user ? (
+                <>
+                  <h4 style={{ color: "#fff", marginRight: "20px" }}>
+                    {user?.result?.name}
+                  </h4>
+                  <Button onClick={logouthandler} className="btn btn-primary">
+                    Log Out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Link to="/login" className="btn btn-outline-secondary me-2">
+                    Sign In
+                  </Link>
+                  <Link to="/register" className="btn btn-primary me-2">
+                    Sign Up
+                  </Link>
+                </>
+              )}
             </form>
           </div>
         </div>

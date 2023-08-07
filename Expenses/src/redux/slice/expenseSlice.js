@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../api/config";
 
-export const allIncome = createAsyncThunk(
-  "income/allIncome",
+export const allExpense = createAsyncThunk(
+  "expense/allExpense",
   async (rejectWithValue) => {
     try {
-      const response = await api.get(`/allincomes`);
+      const response = await api.get(`/allexpenses`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -13,33 +13,33 @@ export const allIncome = createAsyncThunk(
   }
 );
 
-export const addIncome = createAsyncThunk(
-  "income/addIncome",
+export const addExpense = createAsyncThunk(
+  "expense/addExpense",
   async (
     { name, description, amount, user, navigate, toast },
     { rejectWithValue }
   ) => {
     try {
-      const response = await api.post(`/income`, {
+      const response = await api.post(`/expense`, {
         name,
         description,
         amount,
         user,
       });
-      toast.success("New Income added successfully");
-      navigate("/incomelist");
+      toast.success("New Expense added successfully");
+      navigate("/expenseslist");
       return response?.data;
     } catch (error) {
       return rejectWithValue(error.response?.data);
     }
   }
 );
-export const deleteIncome = createAsyncThunk(
-  "income/deleteIncome",
+export const deleteExpense = createAsyncThunk(
+  "expense/deleteExpense",
   async ({ id, toast }, { rejectWithValue }) => {
     try {
       const response = await api.delete(`/delete/${id}`);
-      toast.success("Income deleted successfully");
+      toast.success("Expense deleted successfully");
 
       return response.data;
     } catch (error) {
@@ -48,8 +48,8 @@ export const deleteIncome = createAsyncThunk(
   }
 );
 
-export const getSingleIncome = createAsyncThunk(
-  "income/getSingleIncome",
+export const getSingleExpense = createAsyncThunk(
+  "expense/getSingleExpense",
   async (id, { rejectWithValue }) => {
     try {
       const response = await api.get(`/${id}`);
@@ -60,8 +60,8 @@ export const getSingleIncome = createAsyncThunk(
   }
 );
 
-export const EditIncome = createAsyncThunk(
-  "income/EditIncome",
+export const EditExpense = createAsyncThunk(
+  "expense/EditExpense",
   async ({ id, name, description, amount, toast }, { rejectWithValue }) => {
     try {
       const response = await api.put(`update/${id}`, {
@@ -77,76 +77,76 @@ export const EditIncome = createAsyncThunk(
   }
 );
 
-const incomeSlice = createSlice({
-  name: "income",
+const expenseSlice = createSlice({
+  name: "expense",
   initialState: {
-    incomess: {},
-    incomes: [],
+    expenses: {},
+    expensesArr: [],
     error: "",
     loading: false,
   },
 
   extraReducers: {
-    [allIncome.pending]: (state, action) => {
+    [allExpense.pending]: (state, action) => {
       state.loading = true;
     },
-    [allIncome.fulfilled]: (state, action) => {
+    [allExpense.fulfilled]: (state, action) => {
       state.loading = false;
-      state.incomes = action.payload;
+      state.expensesArr = action.payload;
     },
-    [allIncome.rejected]: (state, action) => {
+    [allExpense.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload.message;
     },
-    [addIncome.pending]: (state, action) => {
+    [addExpense.pending]: (state, action) => {
       state.loading = true;
     },
-    [addIncome.fulfilled]: (state, action) => {
+    [addExpense.fulfilled]: (state, action) => {
       state.loading = false;
-      state.incomess = [action?.payload];
+      state.expenses = [action?.payload];
     },
-    [addIncome.rejected]: (state, action) => {
+    [addExpense.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload?.message;
     },
-    [deleteIncome.pending]: (state, action) => {
+    [deleteExpense.pending]: (state, action) => {
       state.loading = true;
       state.success = false;
     },
-    [deleteIncome.fulfilled]: (state, action) => {
+    [deleteExpense.fulfilled]: (state, action) => {
       state.loading = false;
       state.success = true;
     },
-    [deleteIncome.rejected]: (state, action) => {
+    [deleteExpense.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload.message;
     },
-    [getSingleIncome.pending]: (state, action) => {
+    [getSingleExpense.pending]: (state, action) => {
       state.loading = true;
       state.success = false;
     },
-    [getSingleIncome.fulfilled]: (state, action) => {
+    [getSingleExpense.fulfilled]: (state, action) => {
       state.loading = false;
-      state.incomess = action.payload;
+      state.expenses = action.payload;
       state.success = true;
     },
-    [getSingleIncome.rejected]: (state, action) => {
+    [getSingleExpense.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload.message;
     },
-    [EditIncome.pending]: (state, action) => {
+    [EditExpense.pending]: (state, action) => {
       state.loading = true;
       state.success = false;
     },
-    [EditIncome.fulfilled]: (state, action) => {
+    [EditExpense.fulfilled]: (state, action) => {
       state.loading = false;
-      state.incomess = action.payload;
+      state.expenses = action.payload;
       state.success = true;
     },
-    [EditIncome.rejected]: (state, action) => {
+    [EditExpense.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload.message;
     },
   },
 });
-export default incomeSlice.reducer;
+export default expenseSlice.reducer;

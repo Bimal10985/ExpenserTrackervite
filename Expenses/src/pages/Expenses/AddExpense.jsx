@@ -1,10 +1,32 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import moneySVG from "../../img/money.svg";
 import { useDispatch, useSelector } from "react-redux";
+import { addExpense } from "../../redux/slice/expenseSlice";
+import { toast } from "react-toastify";
+
 const AddExpense = () => {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
+  const handleAddExpenses = (e) => {
+    e.preventDefault();
+    if (name && description && amount) {
+      dispatch(
+        addExpense({
+          name,
+          description,
+          amount,
+          user: user?.result?._id,
+          navigate,
+          toast,
+        })
+      );
+    }
+  };
   useEffect(() => {
     if (!user) {
       navigate("/login");
@@ -25,7 +47,7 @@ const AddExpense = () => {
           <div className="row mb-4">
             <div className="col-12 col-md-8 col-lg-5 mx-auto">
               <div className="p-4 shadow-sm rounded bg-white">
-                <form>
+                <form onSubmit={handleAddExpenses}>
                   <span className="text-muted">Expense</span>
                   <h2 className="mb-4 fw-light">Record New Expense</h2>
 
@@ -34,6 +56,8 @@ const AddExpense = () => {
                       className="form-control"
                       type="text"
                       placeholder="Enter Title"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                     />
                   </div>
                   <div className="mb-3 input-group">
@@ -41,6 +65,8 @@ const AddExpense = () => {
                       className="form-control"
                       type="text"
                       placeholder="Enter Description"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
                     />
                   </div>
 
@@ -49,6 +75,8 @@ const AddExpense = () => {
                       className="form-control"
                       type="number"
                       placeholder="Enter Amount"
+                      value={amount}
+                      onChange={(e) => setAmount(e.target.value)}
                     />
                   </div>
 

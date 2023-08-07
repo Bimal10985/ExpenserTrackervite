@@ -1,45 +1,112 @@
 import React, { useEffect, useState } from "react";
 import { Container, Button, Modal } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { allIncome, deleteIncome } from "../../redux/slice/incomeSlice";
+import {
+  EditIncome,
+  allIncome,
+  deleteIncome,
+  getSingleIncome,
+} from "../../redux/slice/incomeSlice";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import { toast } from "react-toastify";
+import Moment from "react-moment";
 
 const IncomeList = () => {
+  const [editId, setEditID] = useState(null);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState();
   const dispatch = useDispatch();
-  const { incomes, success } = useSelector((state) => state.income);
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+
+  const { incomes, incomess, success } = useSelector((state) => state.income);
   const deleteSingleIncome = (id) => {
     if (window.confirm("Are you sure want to delete this tour?")) {
       dispatch(deleteIncome({ id, toast }));
     }
   };
+  const handleEditIncome = (id) => {
+    handleShow();
+    setEditID(id);
+  };
+  const handleEdit = (e) => {
+    e.preventDefault();
+    dispatch(EditIncome({ id: editId, name, description, amount, toast }));
+    handleClose();
+  };
   useEffect(() => {
     dispatch(allIncome());
   }, []);
+  useEffect(() => {
+    if (editId) {
+      dispatch(getSingleIncome(editId));
+    }
+  }, [editId]);
+  useEffect(() => {
+    if (success) {
+      setName(incomess?.incomes?.name);
+      setDescription(incomess?.incomes?.description);
+      setAmount(incomess?.incomes?.amount);
+    }
+  }, [success]);
   useEffect(() => {
     if (success) {
       dispatch(allIncome());
     }
   }, [success]);
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user]);
   return (
     <>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Edit Income</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
+        <Modal.Body>
+          <form onSubmit={handleEdit}>
+            <div className="mb-3 input-group">
+              <input
+                className="form-control"
+                type="text"
+                placeholder="Enter Title"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="mb-3 input-group">
+              <input
+                className="form-control"
+                type="text"
+                placeholder="Enter Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
+            <div className="mb-3 input-group">
+              <input
+                className="form-control"
+                type="number"
+                placeholder="Enter Amount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+              />
+            </div>
+            <Button className="me-2" variant="danger" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="success" type="Submit">
+              Edit
+            </Button>
+          </form>
+        </Modal.Body>
       </Modal>
       <Container>
         <section className="py-6 mt-5">
@@ -107,14 +174,22 @@ const IncomeList = () => {
                             <td>{elm?.name}</td>
                             <td>{elm?.description}</td>
                             <td>{elm?.amount}</td>
-                            <td>{elm?.name}</td>
+                            <td>
+                              <Moment format="YYYY/MM/DD">
+                                {elm?.createdAt}
+                              </Moment>
+                            </td>
 
                             <td>
                               {" "}
-                              <Button onClick={handleShow}>
+                              <Button
+                                variant="success"
+                                onClick={() => handleEditIncome(elm?._id)}
+                              >
                                 <AiFillEdit />
                               </Button>{" "}
                               <Button
+                                variant="danger"
                                 onClick={() => deleteSingleIncome(elm?._id)}
                               >
                                 <AiFillDelete />
