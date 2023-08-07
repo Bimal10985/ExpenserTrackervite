@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import ExpenseModel from "../models/expense.js";
 export const expenseCreate = async (req, res) => {
   const { name, description, amount, type, user } = req.body;
@@ -22,7 +21,7 @@ export const getAllExpenses = async (req, res) => {
     const expenses = await ExpenseModel.find();
     res.status(200).json({ expenses });
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
+    res.status(500).json({ message: error.message });
     console.log(error);
   }
 };

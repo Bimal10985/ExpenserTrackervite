@@ -96,7 +96,7 @@ const expenseSlice = createSlice({
     },
     [allExpense.rejected]: (state, action) => {
       state.loading = false;
-      state.error = action.payload.message;
+      state.error = action.payload?.message;
     },
     [addExpense.pending]: (state, action) => {
       state.loading = true;

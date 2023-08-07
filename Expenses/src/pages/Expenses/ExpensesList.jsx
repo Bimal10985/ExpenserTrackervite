@@ -15,23 +15,25 @@ const ExpensesList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
+  
   useEffect(() => {
     if (!user) {
       navigate("/login");
     }
   }, [user]);
+  
   useEffect(() => {
     dispatch(allExpense());
   }, []);
   return (
     <>
-      <section className="py-6">
-        <div className="container-fluid">
-          <div className="position-relative border rounded-2">
+      <section className="py-6 mt-5">
+        <div className="container">
+          <div className="position-relative border rounded-2 p-5">
             <a className="position-absolute top-0 end-0 mt-4 me-4" href="#"></a>
             <div className="pt-8 px-8 mb-8">
-              <h6 className="mb-0 fs-3">Recent Expense transactions</h6>
-              <p className="mb-0">
+              <h6 className="mb-0 fs-1 fw-bold">Recent Expense transactions</h6>
+              <p className="mb-3 mt-4">
                 Below is the history of your expense transactions records
               </p>
               <Link
