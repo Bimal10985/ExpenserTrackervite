@@ -5,7 +5,7 @@ export const allExpense = createAsyncThunk(
   "expense/allExpense",
   async (rejectWithValue) => {
     try {
-      const response = await api.get(`/allexpenses`);
+      const response = await api.get(`/allexpenses/fetch`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

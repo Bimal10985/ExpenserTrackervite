@@ -56,3 +56,20 @@ export const fetchUsers = async (req, res) => {
     console.log(error);
   }
 };
+
+export const editUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await UserModel.findById(id);
+    if (user) {
+      user.name = req.body.name || user.name;
+      user.email = req.body.email || user.email;
+      user.isAdmin = req.body.isAdmin || user.isAdmin;
+    }
+    await user.save();
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+    console.log(error);
+  }
+};
