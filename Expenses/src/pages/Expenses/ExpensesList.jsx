@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { allExpense } from "../../redux/slice/expenseSlice";
 
 // import { AiFillEdit, AiFillDelete } from "react-icons/ai";
-// import { toast } from "react-toastify";
-// import Moment from "react-moment";
+import { toast } from "react-toastify";
+import Moment from "react-moment";
 
 const ExpensesList = () => {
   const [name, setName] = useState("");
@@ -15,13 +15,14 @@ const ExpensesList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
-  
+  const { expensesArr } = useSelector((state) => state.expense);
+
   useEffect(() => {
     if (!user) {
       navigate("/login");
     }
   }, [user]);
-  
+
   useEffect(() => {
     dispatch(allExpense());
   }, []);
@@ -43,63 +44,63 @@ const ExpensesList = () => {
                 New Expense
               </Link>
             </div>
-            {/* <table className="table">
-                <thead>
-                  <tr className="table-active">
-                    <th scope="col">
-                      <button className="btn d-flex align-items-centerr text-uppercase">
-                        <small className="text-center">Deposited By</small>
-                      </button>
-                    </th>
-                    <th scope="col">
-                      <button className="btn d-flex align-items-centerr text-uppercase">
-                        <small>Title</small>
-                      </button>
-                    </th>
-                    <th scope="col">
-                      <button className="btn d-flex align-items-centerr text-uppercase">
-                        <small>Description</small>
-                      </button>
-                    </th>
-                    <th scope="col">
-                      <button className="btn d-flex align-items-centerr text-uppercase">
-                        <small>Amount</small>
-                      </button>
-                    </th>
-                    <th scope="col">
-                      <button className="btn d-flex align-items-centerr text-uppercase">
-                        <small>Date</small>
-                      </button>
-                    </th>
-                    <th scope="col">
-                      <button className="btn d-flex align-items-centerr text-uppercase">
-                        <small>Action</small>
-                      </button>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {incomes?.incomes?.length <= 0 ? (
-                    <h2>No Income Found</h2>
-                  ) : (
-                    incomes?.incomes?.map((elm) => {
-                      return (
-                        <>
-                          <tr>
-                            <td>{elm?.name}</td>
+            <table className="table">
+              <thead>
+                <tr className="table-active">
+                  <th scope="col">
+                    <button className="btn d-flex align-items-centerr text-uppercase">
+                      <small className="text-center">Deposited By</small>
+                    </button>
+                  </th>
+                  <th scope="col">
+                    <button className="btn d-flex align-items-centerr text-uppercase">
+                      <small>Title</small>
+                    </button>
+                  </th>
+                  <th scope="col">
+                    <button className="btn d-flex align-items-centerr text-uppercase">
+                      <small>Description</small>
+                    </button>
+                  </th>
+                  <th scope="col">
+                    <button className="btn d-flex align-items-centerr text-uppercase">
+                      <small>Amount</small>
+                    </button>
+                  </th>
+                  <th scope="col">
+                    <button className="btn d-flex align-items-centerr text-uppercase">
+                      <small>Date</small>
+                    </button>
+                  </th>
+                  <th scope="col">
+                    <button className="btn d-flex align-items-centerr text-uppercase">
+                      <small>Action</small>
+                    </button>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {expensesArr?.expenses?.length <= 0 ? (
+                  <h2>No Income Found</h2>
+                ) : (
+                  expensesArr?.expenses?.map((elm) => {
+                    return (
+                      <>
+                        <tr>
+                          <td>{elm?.name}</td>
 
-                            <td>{elm?.name}</td>
-                            <td>{elm?.description}</td>
-                            <td>{elm?.amount}</td>
-                            <td>
-                              <Moment format="YYYY/MM/DD">
-                                {elm?.createdAt}
-                              </Moment>
-                            </td>
+                          <td>{elm?.name}</td>
+                          <td>{elm?.description}</td>
+                          <td>{elm?.amount}</td>
+                          <td>
+                            <Moment format="YYYY/MM/DD">
+                              {elm?.createdAt}
+                            </Moment>
+                          </td>
 
-                            <td>
-                              {" "}
-                              <Button
+                          <td>
+                            {" "}
+                            {/* <Button
                                 variant="success"
                                 onClick={() => handleEditIncome(elm?._id)}
                               >
@@ -110,15 +111,15 @@ const ExpensesList = () => {
                                 onClick={() => deleteSingleIncome(elm?._id)}
                               >
                                 <AiFillDelete />
-                              </Button>{" "}
-                            </td>
-                          </tr>
-                        </>
-                      );
-                    })
-                  )}
-                </tbody>
-              </table> */}
+                              </Button>{" "} */}
+                          </td>
+                        </tr>
+                      </>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
         <div

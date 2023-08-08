@@ -9,7 +9,6 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
-
   const logouthandler = () => {
     dispatch(setLogout());
     navigate("/login");
@@ -25,8 +24,7 @@ const Navbar = () => {
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
         <div className="container">
           <Link to="/" className="navbar-brand">
-            <i className="bi bi-currency-exchange fs-1 text-warning ">
-            </i>
+            <i className="bi bi-currency-exchange fs-1 text-warning "></i>
           </Link>
           <button
             className="navbar-toggler"
@@ -49,53 +47,61 @@ const Navbar = () => {
                   Home
                 </Link>
               </li>
-              {
-                user?
+              {user ? (
                 <>
-                <li className="nav-item mb-2">
-                <Link
-                  to="/expenseslist"
-                  className="btn  btn-outline-warning me-2"
-                >
-                  Expenses List
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/incomelist" className="btn  btn-outline-primary me-2">
-                  Income List
-                </Link>
-              </li>
-              <li className="nav-item mb-2">
-                <Link
-                  to="/dashboard"
-                  className="btn  btn-outline-warning me-2"
-                >
-                  Dashboard
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/profile" className="btn  btn-outline-primary me-2">
-                  Profile
-                </Link>
-              </li>
-                </>:<>
-                
-              <li className="nav-item mb-2">
-                <Link
-                  to="/addexpense"
-                  className="btn  btn-outline-warning me-2"
-                >
-                  New Expense
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/addincome" className="btn  btn-outline-primary me-2">
-                  New Income
-                </Link>
-              </li>
+                  <li className="nav-item mb-2">
+                    <Link
+                      to="/expenseslist"
+                      className="btn  btn-outline-warning me-2"
+                    >
+                      Expenses List
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link
+                      to="/incomelist"
+                      className="btn  btn-outline-primary me-2"
+                    >
+                      Income List
+                    </Link>
+                  </li>
+                  <li className="nav-item mb-2">
+                    <Link
+                      to="/dashboard"
+                      className="btn  btn-outline-warning me-2"
+                    >
+                      Dashboard
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link
+                      to="/profile"
+                      className="btn  btn-outline-primary me-2"
+                    >
+                      Profile
+                    </Link>
+                  </li>
                 </>
-              }
-
+              ) : (
+                <>
+                  <li className="nav-item mb-2">
+                    <Link
+                      to="/addexpense"
+                      className="btn  btn-outline-warning me-2"
+                    >
+                      New Expense
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link
+                      to="/addincome"
+                      className="btn  btn-outline-primary me-2"
+                    >
+                      New Income
+                    </Link>
+                  </li>
+                </>
+              )}
             </ul>
             <form className="d-flex">
               {user ? (
