@@ -26,7 +26,6 @@ const Navbar = () => {
         <div className="container">
           <Link to="/" className="navbar-brand">
             <i className="bi bi-currency-exchange fs-1 text-warning ">
-              Investo
             </i>
           </Link>
           <button
@@ -50,7 +49,37 @@ const Navbar = () => {
                   Home
                 </Link>
               </li>
-
+              {
+                user?
+                <>
+                <li className="nav-item mb-2">
+                <Link
+                  to="/expenseslist"
+                  className="btn  btn-outline-warning me-2"
+                >
+                  Expenses List
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/incomelist" className="btn  btn-outline-primary me-2">
+                  Income List
+                </Link>
+              </li>
+              <li className="nav-item mb-2">
+                <Link
+                  to="/dashboard"
+                  className="btn  btn-outline-warning me-2"
+                >
+                  Dashboard
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/profile" className="btn  btn-outline-primary me-2">
+                  Profile
+                </Link>
+              </li>
+                </>:<>
+                
               <li className="nav-item mb-2">
                 <Link
                   to="/addexpense"
@@ -64,6 +93,9 @@ const Navbar = () => {
                   New Income
                 </Link>
               </li>
+                </>
+              }
+
             </ul>
             <form className="d-flex">
               {user ? (
