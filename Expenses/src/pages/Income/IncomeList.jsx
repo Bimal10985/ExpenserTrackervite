@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Button, Modal } from "react-bootstrap";
-import { Link, navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   EditIncome,
@@ -26,7 +26,7 @@ const IncomeList = () => {
 
   const { incomes, incomess, success } = useSelector((state) => state.income);
   const deleteSingleIncome = (id) => {
-    if (window.confirm("Are you sure want to delete this tour?")) {
+    if (window.confirm("Are you sure want to delete this income?")) {
       dispatch(deleteIncome({ id, toast }));
     }
   };

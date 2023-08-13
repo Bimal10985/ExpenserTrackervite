@@ -1,22 +1,60 @@
 import React, { useEffect, useState } from "react";
-// import { Container, Button, Modal } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { allExpense } from "../../redux/slice/expenseSlice";
+import {
+  EditExpense,
+  allExpense,
+  deleteExpense,
+  getSingleExpense,
+} from "../../redux/slice/expenseSlice";
 
-// import { AiFillEdit, AiFillDelete } from "react-icons/ai";
+import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import { toast } from "react-toastify";
 import Moment from "react-moment";
 
 const ExpensesList = () => {
+  const [editId, setEditID] = useState(null);
+  console.log(editId);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState();
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
-  const { expensesArr } = useSelector((state) => state.expense);
+  const { expensesArr, expenses, success } = useSelector(
+    (state) => state.expense
+  );
+  const deleteSingleExpense = (id) => {
+    if (window.confirm("Are you sure want to delete this expense?")) {
+      dispatch(deleteExpense({ id, toast }));
+    }
+  };
+  const handleEditExpense = (id) => {
+    handleShow();
+    setEditID(id);
+  };
 
+  const handleEdit = (e) => {
+    e.preventDefault();
+    dispatch(EditExpense({ id: editId, name, description, amount, toast }));
+    handleClose();
+  };
+  useEffect(() => {
+    if (editId) {
+      dispatch(getSingleExpense(editId));
+    }
+  }, [editId]);
+  useEffect(() => {
+    if (success) {
+      setName(expenses?.expenses?.name);
+      setDescription(expenses?.expenses?.description);
+      setAmount(expenses?.expenses?.amount);
+    }
+  }, [success]);
   useEffect(() => {
     if (!user) {
       navigate("/login");
@@ -26,8 +64,55 @@ const ExpensesList = () => {
   useEffect(() => {
     dispatch(allExpense());
   }, []);
+  useEffect(() => {
+    if (success) {
+      dispatch(allExpense());
+    }
+  }, [success]);
   return (
     <>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Expense</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form onSubmit={handleEdit}>
+            <div className="mb-3 input-group">
+              <input
+                className="form-control"
+                type="text"
+                placeholder="Enter Title"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="mb-3 input-group">
+              <input
+                className="form-control"
+                type="text"
+                placeholder="Enter Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
+            <div className="mb-3 input-group">
+              <input
+                className="form-control"
+                type="number"
+                placeholder="Enter Amount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+              />
+            </div>
+            <Button className="me-2" variant="danger" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="success" type="Submit">
+              Edit
+            </Button>
+          </form>
+        </Modal.Body>
+      </Modal>
       <section className="py-6 mt-5">
         <div className="container">
           <div className="position-relative border rounded-2 p-5">
@@ -99,19 +184,18 @@ const ExpensesList = () => {
                           </td>
 
                           <td>
-                            {" "}
-                            {/* <Button
-                                variant="success"
-                                onClick={() => handleEditIncome(elm?._id)}
-                              >
-                                <AiFillEdit />
-                              </Button>{" "}
-                              <Button
-                                variant="danger"
-                                onClick={() => deleteSingleIncome(elm?._id)}
-                              >
-                                <AiFillDelete />
-                              </Button>{" "} */}
+                            <Button
+                              variant="success"
+                              onClick={() => handleEditExpense(elm?._id)}
+                            >
+                              <AiFillEdit />
+                            </Button>{" "}
+                            <Button
+                              variant="danger"
+                              onClick={() => deleteSingleExpense(elm?._id)}
+                            >
+                              <AiFillDelete />
+                            </Button>
                           </td>
                         </tr>
                       </>

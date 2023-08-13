@@ -38,7 +38,7 @@ export const deleteExpense = createAsyncThunk(
   "expense/deleteExpense",
   async ({ id, toast }, { rejectWithValue }) => {
     try {
-      const response = await api.delete(`/delete/${id}`);
+      const response = await api.delete(`/deleteExpense/${id}`);
       toast.success("Expense deleted successfully");
 
       return response.data;
@@ -52,7 +52,8 @@ export const getSingleExpense = createAsyncThunk(
   "expense/getSingleExpense",
   async (id, { rejectWithValue }) => {
     try {
-      const response = await api.get(`/${id}`);
+      const response = await api.get(`/getexp/${id}`);
+      console.log(response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -64,12 +65,12 @@ export const EditExpense = createAsyncThunk(
   "expense/EditExpense",
   async ({ id, name, description, amount, toast }, { rejectWithValue }) => {
     try {
-      const response = await api.put(`update/${id}`, {
+      const response = await api.put(`updateExpense/${id}`, {
         name,
         description,
         amount,
       });
-      toast.success("Income edited successfully");
+      toast.success("Expense edited successfully");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

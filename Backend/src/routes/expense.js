@@ -10,8 +10,8 @@ const router = express.Router();
 
 router.post("/expense", expenseCreate);
 router.get("/allexpenses/fetch", getAllExpenses);
-router.get("/:id", getExpenseByID);
-router.put("/update/:id", editExpense);
-router.delete("/delete/:id", deleteExpense);
+router.get("/getexp/:id", getExpenseByID);
+router.put("/updateExpense/:id", editExpense);
+router.delete("/deleteExpense/:id", deleteExpense);
 
 export default router;
