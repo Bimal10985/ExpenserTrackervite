@@ -77,11 +77,25 @@ export const EditIncome = createAsyncThunk(
   }
 );
 
+export const getIncomeByUser = createAsyncThunk(
+  "income/getIncomeByUser",
+  async (userID,{rejectWithValue}) => {
+    try {
+      const response = await api.get(`/userIncome/${userID}`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+
 const incomeSlice = createSlice({
   name: "income",
   initialState: {
     incomess: {},
     incomes: [],
+    incomeUser:[],
     error: "",
     loading: false,
   },
@@ -97,6 +111,17 @@ const incomeSlice = createSlice({
     [allIncome.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload.message;
+    },
+    [getIncomeByUser.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [getIncomeByUser.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.incomeUser = action.payload;
+    },
+    [getIncomeByUser.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload?.message;
     },
     [addIncome.pending]: (state, action) => {
       state.loading = true;

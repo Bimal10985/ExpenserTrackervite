@@ -64,3 +64,16 @@ export const deleteExpense = async (req, res) => {
     console.log(error);
   }
 };
+export const getIExpenseUser = async (req, res) => {
+  const { userID } = req.params;
+  try {
+    if (!mongoose.Types.ObjectId.isValid(userID)) {
+      return res.status(404).json({ message: "User doesnot exist" });
+    }
+    const expense = await ExpenseModel.find({ user: userID });
+    res.status(200).json({ expense });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+    console.log(error);
+  }
+};

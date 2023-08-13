@@ -28,6 +28,8 @@ const ExpensesList = () => {
   const { expensesArr, expenses, success } = useSelector(
     (state) => state.expense
   );
+  const userID=user?.result?._id;
+
   const deleteSingleExpense = (id) => {
     if (window.confirm("Are you sure want to delete this expense?")) {
       dispatch(deleteExpense({ id, toast }));

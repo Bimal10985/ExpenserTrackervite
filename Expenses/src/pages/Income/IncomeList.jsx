@@ -6,6 +6,7 @@ import {
   EditIncome,
   allIncome,
   deleteIncome,
+  getIncomeByUser,
   getSingleIncome,
 } from "../../redux/slice/incomeSlice";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
@@ -23,8 +24,9 @@ const IncomeList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
-
+  const userID=user?.result?._id;
   const { incomes, incomess, success } = useSelector((state) => state.income);
+  const {incomeUser}=useSelector((state)=>state.income)
   const deleteSingleIncome = (id) => {
     if (window.confirm("Are you sure want to delete this income?")) {
       dispatch(deleteIncome({ id, toast }));
@@ -59,6 +61,11 @@ const IncomeList = () => {
       dispatch(allIncome());
     }
   }, [success]);
+  useEffect(()=>{
+    if(userID){
+      dispatch(getIncomeByUser(userID));
+    }
+  },[userID])
   useEffect(() => {
     if (!user) {
       navigate("/login");
@@ -161,7 +168,10 @@ const IncomeList = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody>
+                {
+                  user?.result?.isAdmin===true?
+                  <>
+                  <tbody>
                   {incomes?.incomes?.length <= 0 ? (
                     <h2>No Income Found</h2>
                   ) : (
@@ -201,6 +211,51 @@ const IncomeList = () => {
                     })
                   )}
                 </tbody>
+                  </>:
+                  <>
+                  <tbody>
+                  {incomeUser?.incomes?.length <= 0 ? (
+                    <h2>No Income Found</h2>
+                  ) : (
+                    incomeUser?.incomes?.map((elm) => {
+                      return (
+                        <>
+                          <tr>
+                            <td>{elm?.name}</td>
+
+                            <td>{elm?.name}</td>
+                            <td>{elm?.description}</td>
+                            <td>{elm?.amount}</td>
+                            <td>
+                              <Moment format="YYYY/MM/DD">
+                                {elm?.createdAt}
+                              </Moment>
+                            </td>
+
+                            <td>
+                              {" "}
+                              <Button
+                                variant="success"
+                                onClick={() => handleEditIncome(elm?._id)}
+                              >
+                                <AiFillEdit />
+                              </Button>{" "}
+                              <Button
+                                variant="danger"
+                                onClick={() => deleteSingleIncome(elm?._id)}
+                              >
+                                <AiFillDelete />
+                              </Button>{" "}
+                            </td>
+                          </tr>
+                        </>
+                      );
+                    })
+                  )}
+                </tbody>
+                  </>
+                }
+                
               </table>
             </div>
           </div>

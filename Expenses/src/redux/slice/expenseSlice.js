@@ -77,12 +77,24 @@ export const EditExpense = createAsyncThunk(
     }
   }
 );
+export const getExpenseByUser = createAsyncThunk(
+  "income/getIncomeByUser",
+  async (userID,{rejectWithValue}) => {
+    try {
+      const response = await api.get(`/userExpense/${userID}`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 const expenseSlice = createSlice({
   name: "expense",
   initialState: {
     expenses: {},
     expensesArr: [],
+    incomeExpense:[],
     error: "",
     loading: false,
   },
@@ -96,6 +108,17 @@ const expenseSlice = createSlice({
       state.expensesArr = action.payload;
     },
     [allExpense.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload?.message;
+    },
+    [getExpenseByUser.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [getExpenseByUser.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.incomeExpense = action.payload;
+    },
+    [getExpenseByUser.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload?.message;
     },
